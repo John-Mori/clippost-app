@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="site-type" content="list-tool">
+<meta name="robots" content="noindex">
+<title>ClipPost</title>
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+<header class="topbar">
+  <h1>ClipPost</h1>
+  <div class="auth">
+    <span id="authState" class="muted">未ログイン</span>
+    <button type="button" id="loginBtn" class="btn btn-ink">Googleでログイン</button>
+  </div>
+</header>
+<p id="configNote" class="note warn" hidden></p>
+
+<main>
+  <section class="card">
+    <h2>動画</h2>
+    <div class="seg" role="tablist">
+      <button type="button" class="seg-btn is-on" data-src="file" role="tab" aria-selected="true">ファイルを選ぶ</button>
+      <button type="button" class="seg-btn" data-src="url" role="tab" aria-selected="false">TikTokのURL</button>
+    </div>
+    <div id="srcFile" class="src-pane">
+      <input type="file" id="fileInput" accept="video/*">
+    </div>
+    <div id="srcUrl" class="src-pane" hidden>
+      <div class="row">
+        <input type="url" id="urlInput" placeholder="https://www.tiktok.com/@.../video/..." inputmode="url" autocomplete="off">
+        <button type="button" id="urlFetchBtn" class="btn btn-line">取得</button>
+      </div>
+      <p class="hint">自分のTikTokに上げた動画のURLだけを貼ってください。</p>
+    </div>
+    <p id="videoState" class="state muted">動画はまだ選ばれていません。</p>
+    <video id="preview" class="preview" controls playsinline muted hidden></video>
+  </section>
+
+  <section class="card">
+    <h2>題名</h2>
+    <input type="text" id="titleInput" autocomplete="off" placeholder="題名">
+    <div class="counter"><span id="titleCount">100</span>字のこり</div>
+
+    <div class="sub-head">
+      <span>よく使うハッシュタグ(押すと題名の末尾へ)</span>
+      <button type="button" id="tagEditBtn" class="btn btn-small btn-line">編集</button>
+    </div>
+    <div id="tagChips" class="chips"></div>
+    <p id="tagEmpty" class="hint" hidden>登録されたタグはまだありません。下の欄から登録できます。</p>
+    <div id="tagEditor" class="tag-editor" hidden>
+      <div class="row">
+        <input type="text" id="tagNewInput" placeholder="#タグ (空白区切りで複数可)" autocomplete="off">
+        <button type="button" id="tagAddBtn" class="btn btn-line">登録</button>
+      </div>
+      <p class="hint">削除はタグ右の「削除」を押します。</p>
+    </div>
+    <p id="tagState" class="state muted"></p>
+  </section>
+
+  <section class="card">
+    <h2>ハッシュタグ</h2>
+    <input type="text" id="hashtagInput" autocomplete="off" placeholder="#タグ1 #タグ2">
+    <p class="hint">ここのタグは説明欄の末尾に付けて送ります。</p>
+  </section>
+
+  <section class="card">
+    <h2>説明欄</h2>
+    <textarea id="descInput" rows="4" placeholder="説明(任意)"></textarea>
+  </section>
+
+  <section class="card">
+    <h2>投稿日時</h2>
+    <div class="seg" role="radiogroup">
+      <button type="button" class="seg-btn is-on" data-mode="now" role="radio" aria-checked="true">即時投稿</button>
+      <button type="button" class="seg-btn" data-mode="schedule" role="radio" aria-checked="false">予約投稿</button>
+    </div>
+    <div id="schedulePane" hidden>
+      <div class="wheels" id="wheels">
+        <div class="wheel wheel-date" data-wheel="date" tabindex="0" aria-label="日付"></div>
+        <div class="wheel wheel-num" data-wheel="hour" tabindex="0" aria-label="時"></div>
+        <div class="wheel-sep">:</div>
+        <div class="wheel wheel-num" data-wheel="min" tabindex="0" aria-label="分"></div>
+        <div class="wheel-band" aria-hidden="true"></div>
+      </div>
+      <p id="scheduleState" class="state"></p>
+      <p class="hint">日本時間で表示しています。予約した動画は非公開で上がり、指定の時刻にYouTubeが公開します。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <button type="button" id="uploadBtn" class="btn btn-main" disabled>投稿する</button>
+    <p id="uploadState" class="state muted"></p>
+    <div id="progressWrap" class="progress" hidden><div id="progressBar" class="progress-bar"></div></div>
+    <div id="result" class="result" hidden></div>
+  </section>
+</main>
+
+<script src="config.js?v=1"></script>
+<script src="lib.js?v=1"></script>
+<script src="app.js?v=1"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+</html>
