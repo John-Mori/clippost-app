@@ -71,6 +71,10 @@ t('appendTag: 重複は足さない(大文字小文字無視)', () => {
   const r = L.appendTagToTitle('題名 #Shorts もっと', '#shorts');
   assert.equal(r.added, false); assert.equal(r.reason, 'duplicate'); assert.equal(r.title, '題名 #Shorts もっと');
 });
+t('appendTag: 句読点で区切られた既存タグも重複にしない', () => {
+  const r = L.appendTagToTitle('題名 #Shorts, #news。', '#shorts');
+  assert.equal(r.added, false); assert.equal(r.reason, 'duplicate');
+});
 t('appendTag: 前方一致は重複にしない(#shortsと#shortsfan)', () => {
   assert.equal(L.appendTagToTitle('題名 #shortsfan', '#shorts').title, '題名 #shortsfan #shorts');
 });

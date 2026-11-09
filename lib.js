@@ -95,7 +95,10 @@
   function hasTag(text, tag) {
     const t = normalizeTag(tag).toLowerCase();
     if (!t) return false;
-    return String(text || '').split(/[\s　]+/).some((w) => w.toLowerCase() === t);
+    // 句読点の直前でも、タグそのものとして照合する。
+    // 空白だけで分けると「#shorts,」を別の文字列と扱って重複する。
+    const tags = String(text || '').match(/[#＃][^\s　#＃,、，+|()[\]{}<>.。!！?？]+/g) || [];
+    return tags.some((w) => normalizeTag(w).toLowerCase() === t);
   }
 
   /** タイトル末尾へタグを貼る。空白1つで区切り、既にあれば足さない。上限超えなら足さない。
